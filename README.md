@@ -26,14 +26,49 @@ Nothing is installed on the router for the core features. The optional router sc
 
 ## Installation
 
-### HACS (custom repository)
+There are two ways to install it. **HACS is the easiest** and also gives you updates. Use the manual method if you don't have HACS.
 
-1. In HACS, open the menu → **Custom repositories**, add this repository's URL with category **Integration**.
-2. Install **DD-WRT Monitor** and restart Home Assistant.
+### Option A: HACS (recommended)
 
-### Manual
+1. In Home Assistant, open **HACS**, then the **⋮** menu (top right) → **Custom repositories**.
+2. Paste this repository's URL, choose the category **Integration**, and click **Add**.
+3. Search HACS for **DD-WRT Monitor**, open it and click **Download**.
+4. Restart Home Assistant (**Settings → System**, power button at the top right → **Restart Home Assistant**).
 
-Copy `custom_components/ddwrt_monitor` into your Home Assistant `config/custom_components/` folder and restart Home Assistant.
+### Option B: Manual
+
+You copy one folder, `ddwrt_monitor`, into a folder called `custom_components` inside Home Assistant's **configuration folder**. That's the folder containing `configuration.yaml`.
+
+**1. Find your configuration folder.** It depends on how Home Assistant is installed. Not sure which one you have? Go to **Settings → System → Repairs**, open the **⋮** menu → **System information**, and look at *Installation type*.
+
+| Installation type | Where the configuration folder is | Easiest way to copy files there |
+|---|---|---|
+| **Home Assistant OS** (Raspberry Pi, Home Assistant Green/Yellow, virtual machine) | `/config` | The **Samba share** add-on (it appears as the `config` network share on your computer), or the **File editor** / **Studio Code Server** add-ons |
+| **Home Assistant Supervised** | `/usr/share/hassio/homeassistant` on the host (`/config` inside add-ons) | Same add-ons as above, or SSH to the host |
+| **Home Assistant Container** (Docker, including NAS systems like ZimaOS, CasaOS, Unraid, Synology, TrueNAS) | The host folder mapped to `/config` in the container. Find it in your `docker-compose.yml` (`volumes: - /some/host/path:/config`), in the app's settings on your NAS, or with `docker inspect homeassistant` | Your NAS file manager, a network share, or `scp` to the host |
+| **Home Assistant Core** (Python virtual environment) | Usually `~/.homeassistant` for the user that runs Home Assistant | Copy directly on that machine |
+
+**2. Copy the folder.** Download this repository (green **Code** button → **Download ZIP**) and unzip it. Copy the folder `custom_components/ddwrt_monitor` from the ZIP into your configuration folder. If `custom_components` doesn't exist there yet, create it. The result must look like this:
+
+```
+<configuration folder>/           ← the folder that contains configuration.yaml
+├── configuration.yaml
+├── custom_components/            ← create it if it doesn't exist
+│   └── ddwrt_monitor/            ← copied from this repository
+│       ├── __init__.py
+│       ├── api.py
+│       ├── manifest.json
+│       ├── ...
+│       └── translations/
+└── ...
+```
+
+Common mistakes:
+- Nesting one folder too deep (`custom_components/ddwrt_monitor/ddwrt_monitor/…`). `manifest.json` must sit directly inside `custom_components/ddwrt_monitor/`.
+- Copying the whole repository instead of just the `ddwrt_monitor` folder.
+- On Docker, copying into a folder on the host that isn't the one mapped to `/config`.
+
+**3. Restart Home Assistant** (**Settings → System**, power button at the top right → **Restart Home Assistant**). Custom integrations are only loaded at startup.
 
 ## Configuration
 
