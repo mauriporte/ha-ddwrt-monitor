@@ -1,0 +1,12 @@
+{
+  "domain": "ddwrt_monitor",
+  "name": "DD-WRT Monitor",
+  "codeowners": ["@mauriporte"],
+  "config_flow": true,
+  "documentation": "https://github.com/mauriporte/ha-ddwrt-monitor",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/mauriporte/ha-ddwrt-monitor/issues",
+  "requirements": [],
+  "version": "0.2.0"
+}
