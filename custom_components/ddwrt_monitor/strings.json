@@ -1,0 +1,16 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "DD-WRT router",
+        "description": "Web interface login of the DD-WRT router.",
+        "data": {"host": "Host", "username": "Username", "password": "Password", "port": "HTTP port"}
+      }
+    },
+    "error": {
+      "invalid_auth": "Wrong username or password.",
+      "cannot_connect": "Cannot reach the router web interface."
+    },
+    "abort": {"already_configured": "This router is already configured."}
+  }
+}
